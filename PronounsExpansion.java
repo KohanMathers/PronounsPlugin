@@ -47,11 +47,16 @@ public class PronounsExpansion extends PlaceholderExpansion {
 
         Map<UUID, String> data = plugin.getPronounsData();
         String stored = data.get(player.getUniqueId());
-        if (stored == null) stored = "";
+        if (stored == null || stored.isEmpty()) {
+            if (identifier.startsWith("or:")) return identifier.substring(3);
+            if (identifier.startsWith("raw_or:")) return identifier.substring(7);
+            if (identifier.startsWith("fullraw_or:")) return identifier.substring(11);
+            return "";
+        }
 
         String colorName = "GRAY";
         String pronouns = "";
-        if (!stored.isEmpty() && stored.contains(":")) {
+        if (stored.contains(":")) {
             String[] parts = stored.split(":", 2);
             colorName = parts[0];
             pronouns = parts[1];
@@ -62,6 +67,10 @@ public class PronounsExpansion extends PlaceholderExpansion {
             color = ChatColor.valueOf(colorName);
         } catch (IllegalArgumentException ignored) {}
 
+        if (pronouns.isEmpty()) {
+            return "";
+        }
+
         String brackets = color + "[" + pronouns + "]" + ChatColor.RESET;
         String colorless = ChatColor.WHITE + "[" + pronouns + "]" + ChatColor.RESET;
         String raw = color + pronouns + ChatColor.RESET;
@@ -69,7 +78,7 @@ public class PronounsExpansion extends PlaceholderExpansion {
         String lower = brackets.toLowerCase();
         String upper = brackets.toUpperCase();
         String cap = capitalizePronouns(pronouns, color);
-        String shortForm = pronouns.split("/")[0];
+        String shortForm = pronouns.contains("/") ? pronouns.split("/")[0] : pronouns;
 
         if (identifier.equals("")) return brackets;
         if (identifier.equals("raw")) return raw;
@@ -96,4 +105,4 @@ public class PronounsExpansion extends PlaceholderExpansion {
         }
         return color + "[" + String.join("/", words) + "]" + ChatColor.RESET;
     }
-} 
+}
