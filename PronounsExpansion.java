@@ -79,6 +79,8 @@ public class PronounsExpansion extends PlaceholderExpansion {
         String upper = brackets.toUpperCase();
         String cap = capitalizePronouns(pronouns, color);
         String shortForm = pronouns.contains("/") ? pronouns.split("/")[0] : pronouns;
+        String parentheses = "(" + raw + ")";
+        String parenthesesColorless = "(" + fullraw + ")";
 
         if (identifier.equals("")) return brackets;
         if (identifier.equals("raw")) return raw;
@@ -88,6 +90,8 @@ public class PronounsExpansion extends PlaceholderExpansion {
         if (identifier.equals("uppercase")) return upper;
         if (identifier.equals("capitalized")) return cap;
         if (identifier.equals("short")) return shortForm;
+        if (identifier.equals("parentheses")) return parentheses;
+        if (identifier.equals("parentheses_colorless")) return parenthesesColorless;
 
         if (identifier.startsWith("or:")) return brackets.isEmpty() ? identifier.substring(3) : brackets;
         if (identifier.startsWith("raw_or:")) return raw.isEmpty() ? identifier.substring(7) : raw;
