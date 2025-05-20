@@ -1,6 +1,6 @@
 # Pronouns – Let Players Show Their True Selves
 
-## Version 2.0.1 | Made by KohanMathers
+## Version 2.0.3 | Made by KohanMathers
 
 Give your Minecraft community the power to express themselves authentically. **Pronouns** allows players to set and display their pronouns directly in chat, with integration into PlaceholderAPI. Whether you're running a survival server or an inclusive roleplay world, this plugin helps create a welcoming and respectful space for everyone.
 
