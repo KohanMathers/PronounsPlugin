@@ -51,6 +51,8 @@ You can use these placeholders in any plugin that supports [PlaceholderAPI](http
 | %pronouns_uppercase% | Pronouns in all uppercase |
 | %pronouns_capitalized% | Pronouns with the first letter of each word capitalized |
 | %pronouns_short% | The short form of pronouns (e.g., they instead of they/them) |
+| %pronouns_parentheses% |	Pronouns in parentheses instead of brackets (e.g., (they/them)) |
+| %pronouns_parentheses_colorless% |	Colourless pronouns in parentheses instead of brackets (e.g., (they/them) but colourless) |
 
 ---
 
