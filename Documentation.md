@@ -16,7 +16,8 @@ Welcome to the official documentation for **Pronouns** – a lightweight, inclus
 
 | Command | Description | Permission |
 |--------|-------------|------------|
-| /pronouns add <colour> <pronouns> | Set your own pronouns | pronounsplugin.use |
+| /pronouns set <colour> <pronouns> | Set your own pronouns | pronounsplugin.use |
+| /pronouns set gradient <pattern> <pronouns> | Set your own pronouns | pronounsplugin.use |
 | /pronouns remove | Remove your own pronouns | pronounsplugin.use |
 | /pronouns remove <player> | Remove another player's pronouns | pronounsplugin.admin |
 
