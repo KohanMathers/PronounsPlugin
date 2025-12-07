@@ -98,13 +98,20 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
         getLogger().info("Running on " + (isPaperServer ? "Paper" : "Spigot") + " - compatibility mode enabled");
     }
 
-    private void detectPaperCompatibility() {
+    private static boolean hasClass(String className) {
         try {
-            paperDisplayNameMethod = Player.class.getMethod("displayName", Component.class);
-            paperPlayerListNameMethod = Player.class.getMethod("playerListName", Component.class);
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    private void detectPaperCompatibility() {
+        if (hasClass("com.destroystokyo.paper.PaperConfig") || hasClass("io.papermc.paper.configuration.Configuration")) {
             isPaperServer = true;
             getLogger().info("Paper server detected - using enhanced display name features");
-        } catch (NoSuchMethodException e) {
+        } else {
             isPaperServer = false;
             getLogger().info("Spigot server detected - using legacy display name compatibility");
         }
