@@ -331,9 +331,16 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
             sendMsg(player, message);
             return false;
         }
-        
+
+        String filterError = validatePronounsFilter(pronouns, player);
+        if (filterError != null) {
+            String message = getConfig().getString("messages." + filterError, "&cThose pronouns are not allowed.");
+            sendMsg(player, message);
+            return false;
+        }
+
         pronounsData.put(player.getUniqueId(), color.toString() + ":" + pronouns);
-        
+
         @SuppressWarnings("null")
         String baseMessage = getConfig().getString("messages.pronouns-set", "&aYour pronouns have been set to: {pronouns}");
         String formattedMessage = baseMessage.replace("{pronouns}", "[" + pronouns + "]");
@@ -417,6 +424,13 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
             @SuppressWarnings("null")
             String message = getConfig().getString("messages.max-length-exceeded", "&cPronouns too long! Maximum length: {limit} characters.")
                     .replace("{limit}", String.valueOf(maxLength));
+            sendMsg(player, message);
+            return false;
+        }
+
+        String filterError = validatePronounsFilter(pronouns, player);
+        if (filterError != null) {
+            String message = getConfig().getString("messages." + filterError, "&cThose pronouns are not allowed.");
             sendMsg(player, message);
             return false;
         }
@@ -573,6 +587,71 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
         text = text.replaceAll("§x(§[0-9a-f]){6}", "");
         text = text.replaceAll("§[0-9a-fk-or]", "");
         return text;
+    }
+
+    /**
+     * Validates pronouns against whitelist and blacklist filters.
+     * @param pronouns The pronouns to validate
+     * @param player The player setting the pronouns (for permission bypass check)
+     * @return null if valid, or the error message key if invalid
+     */
+    private String validatePronounsFilter(String pronouns, Player player) {
+        if (player.hasPermission("pronouns.bypass-filter")) {
+            return null;
+        }
+
+        boolean whitelistEnabled = getConfig().getBoolean("filter.whitelist.enabled", false);
+        boolean blacklistEnabled = getConfig().getBoolean("filter.blacklist.enabled", false);
+
+        if (!whitelistEnabled && !blacklistEnabled) {
+            return null;
+        }
+
+        if (whitelistEnabled) {
+            List<String> whitelistItems = getConfig().getStringList("filter.whitelist.list");
+            String whitelistRegex = getConfig().getString("filter.whitelist.regex", "");
+
+            boolean matchesList = whitelistItems.stream()
+                    .anyMatch(item -> item.equalsIgnoreCase(pronouns));
+
+            boolean matchesRegex = false;
+            if (whitelistRegex != null && !whitelistRegex.isEmpty()) {
+                try {
+                    Pattern pattern = Pattern.compile(whitelistRegex, Pattern.CASE_INSENSITIVE);
+                    matchesRegex = pattern.matcher(pronouns).find();
+                } catch (Exception e) {
+                    getLogger().warning("Invalid whitelist regex pattern: " + whitelistRegex);
+                }
+            }
+
+            if (!matchesList && !matchesRegex) {
+                return "pronouns-not-whitelisted";
+            }
+        }
+
+        if (blacklistEnabled) {
+            List<String> blacklistItems = getConfig().getStringList("filter.blacklist.list");
+            String blacklistRegex = getConfig().getString("filter.blacklist.regex", "");
+
+            boolean matchesList = blacklistItems.stream()
+                    .anyMatch(item -> item.equalsIgnoreCase(pronouns));
+
+            boolean matchesRegex = false;
+            if (blacklistRegex != null && !blacklistRegex.isEmpty()) {
+                try {
+                    Pattern pattern = Pattern.compile(blacklistRegex, Pattern.CASE_INSENSITIVE);
+                    matchesRegex = pattern.matcher(pronouns).find();
+                } catch (Exception e) {
+                    getLogger().warning("Invalid blacklist regex pattern: " + blacklistRegex);
+                }
+            }
+
+            if (matchesList || matchesRegex) {
+                return "pronouns-blacklisted";
+            }
+        }
+
+        return null;
     }
 
     private Map<String, String> getGradientPresets() {
