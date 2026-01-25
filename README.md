@@ -1,25 +1,26 @@
 # Pronouns – Let Players Show Their True Selves
-## Version 3.4.1 | Made by KohanMathers
+## Version 3.5.0 | Made by KohanMathers
 
 Give your Minecraft community the power to express themselves authentically. **Pronouns** allows players to set and display their pronouns directly in chat and above their heads, with vibrant colors and gradient effects. Whether you're running a survival server or an inclusive roleplay world, this plugin helps create a welcoming and respectful space for everyone.
 
 ---
 
-### ✨ Features
+### Features
 
-- ✅ Players can set or remove their pronouns with custom colors
-- ✅ **Gradient pronouns** with preset color schemes (trans, lesbian, bi, pan, etc.)
-- ✅ Display pronouns in chat, above player heads, and in tab list
-- ✅ PlaceholderAPI integration (%pronounsplugin_pronouns%)
-- ✅ Admin support to manage pronouns for others
-- ✅ Fully configurable messages and display options
-- ✅ Lightweight and optimized for performance
-- ✅ Works on both **Spigot and Paper** (1.16+)
-- ✅ bStats metrics integration
+- Players can set or remove their pronouns with custom colors
+- **Gradient pronouns** with preset color schemes or custom hex colors
+- Display pronouns in chat, above player heads, and in tab list
+- **Whitelist & blacklist filtering** with regex support
+- PlaceholderAPI integration (`%pronouns_<identifier>%`)
+- Admin support to manage pronouns for others
+- Fully configurable messages and display options
+- Lightweight and optimized for performance
+- Works on both **Spigot and Paper** (1.21+)
+- bStats metrics integration
 
 ---
 
-### 🎨 Commands
+### Commands
 
 | Command | Description |
 |---------|-------------|
@@ -29,92 +30,124 @@ Give your Minecraft community the power to express themselves authentically. **P
 | `/pronouns remove <player>` | *(Admin)* Remove another player's pronouns |
 | `/pronouns reload` | *(Admin)* Reload the plugin configuration |
 
-**Aliases:** `/pronoun`
+**Aliases:** `/pronoun`, `/pn`
 
 **Examples:**
 - `/pronouns set white they/them`
-- `/pronouns set gradient trans they/them`
+- `/pronouns set gradient pride they/them`
 - `/pronouns set gradient #ff0000 #0000ff she/her`
 - `/pronouns set gradient red blue green he/him`
 
 ---
 
-### 🌈 Gradient Presets
+### Gradient Presets
 
-The plugin comes with built-in gradient presets for pride flags:
-- `trans` - Transgender flag colors
-- `lesbian` - Lesbian flag colors
-- `bi` - Bisexual flag colors
-- `pan` - Pansexual flag colors
-- `ace` - Asexual flag colors
-- `nonbinary` - Non-binary flag colors
-- `rainbow` - Classic rainbow pride colors
+The plugin comes with built-in gradient presets:
+- `pride` - Rainbow pride colors
+- `galaxy` - Purple galaxy aesthetic
+- `pastel` - Soft pastel tones
 
-You can also create custom gradients using color names or hex codes!
+You can add custom presets in `config.yml` or use color names/hex codes directly!
 
 ---
 
-### 🔐 Permissions
+### Permissions
 
 | Permission | Description | Default |
 |------------|-------------|---------|
-| `pronounsplugin.use` | Allows a player to set their own pronouns | ✅ Everyone |
-| `pronounsplugin.admin` | Allows managing others' pronouns | ❌ OP only |
-| `pronounsplugin.reload` | Allows reloading the configuration | ❌ OP only |
-| `pronouns.gradient-limit-bypass` | Bypass the gradient color limit | ❌ OP only |
+| `pronouns.use` | Allows setting your own pronouns | Everyone |
+| `pronouns.gradient` | Allows using gradient pronouns | Everyone |
+| `pronouns.remove.others` | Allows removing other players' pronouns | OP only |
+| `pronouns.gradient-limit-bypass` | Bypass the gradient color limit | OP only |
+| `pronouns.bypass-filter` | Bypass whitelist/blacklist filters | OP only |
+| `pronouns.reload` | Allows reloading the configuration | OP only |
+| `pronouns.admin` | All admin permissions | OP only |
 
 ---
 
-### 📊 PlaceholderAPI Support
+### PlaceholderAPI Support
 
 **Requires PlaceholderAPI to be installed!**
 
-Use `%pronounsplugin_pronouns%` anywhere you want to show a player's pronouns — in nametags, tablist, chat formats, scoreboards, and more!
+| Placeholder | Description |
+|-------------|-------------|
+| `%pronouns%` | Pronouns with brackets and color `[they/them]` |
+| `%pronouns_raw%` | Pronouns with color, no brackets |
+| `%pronouns_colorless%` | Pronouns with brackets, white color |
+| `%pronouns_fullraw%` | Plain text pronouns only |
+| `%pronouns_lowercase%` | Lowercase with brackets |
+| `%pronouns_uppercase%` | Uppercase with brackets |
+| `%pronouns_capitalized%` | Capitalized (They/Them) |
+| `%pronouns_short%` | First pronoun only (they) |
+| `%pronouns_parentheses%` | With parentheses instead of brackets |
+| `%pronouns_or:<fallback>%` | Returns fallback if no pronouns set |
 
 **Example (with a chat plugin):**
 ```
-[%pronounsplugin_pronouns%] %player%: %message%
+[%pronouns%] %player%: %message%
 ```
 
 ---
 
-### ⚙️ Configuration
+### Configuration
 
 The plugin is highly configurable via `config.yml`:
 
 **General Settings:**
+- `max-pronoun-length` - Maximum character limit for pronouns (default: 20)
 - `update-display-names` - Whether to update player display names
-- `max-pronoun-length` - Maximum character limit for pronouns
 - `auto-save` - Enable automatic saving
 - `save-delay` - Delay before saving (in seconds)
 
 **Gradient Settings:**
-- `color-limit` - Maximum colors allowed in gradients
+- `color-limit` - Maximum colors allowed in gradients (default: 5, -1 for unlimited)
 - `show-preview` - Show gradient preview when set
-- `presets` - Custom gradient presets
+- `presets` - Define custom gradient presets
 
-**Display Settings:**
+**Chat/Display Settings:**
 - `show-above-head` - Show pronouns above player heads
 - `show-in-tab-list` - Show pronouns in the tab list
+- `bracket-style` - Bracket style (square, round, curly, angle)
+
+**Filter Settings (New in 3.5.0):**
+- `filter.whitelist.enabled` - Only allow specific pronouns
+- `filter.whitelist.list` - List of allowed pronouns (case-insensitive)
+- `filter.whitelist.regex` - Regex pattern for allowed pronouns
+- `filter.blacklist.enabled` - Block specific pronouns
+- `filter.blacklist.list` - List of blocked pronouns
+- `filter.blacklist.regex` - Regex pattern for blocked pronouns
+
+**Filter Example:**
+```yaml
+filter:
+  whitelist:
+    enabled: true
+    list: ["he/him", "she/her", "they/them"]
+    regex: ""
+  blacklist:
+    enabled: true
+    list: []
+    regex: "badword|offensive"
+```
 
 **Messages:**
 All messages are fully customizable with MiniMessage and legacy color code support!
 
 ---
 
-### 🔧 Installation
+### Installation
 
 1. Drop the plugin JAR into your server's `plugins/` folder
 2. *(Recommended)* Install [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)
 3. Restart the server
 4. Configure via `plugins/PronounsPlugin/config.yml`
-5. Set up your chat plugin to use `%pronounsplugin_pronouns%`
+5. Set up your chat plugin to use `%pronouns%`
 
 ---
 
-### 📝 Notes
+### Notes
 
-- **Spigot/Paper only** (1.16+). Does not currently support BungeeCord networks
+- **Spigot/Paper only** (1.21+). Does not currently support BungeeCord networks
 - Pronouns are stored in `plugins/PronounsPlugin/pronouns.json`
 - PlaceholderAPI is **highly recommended** for chat integration
 - The plugin automatically detects Paper vs Spigot and uses appropriate APIs
@@ -122,17 +155,17 @@ All messages are fully customizable with MiniMessage and legacy color code suppo
 
 ---
 
-### 🚀 Planned Features
+### Planned Features
 
-- 🔗 MySQL support for shared pronouns across BungeeCord servers
-- 🖱️ GUI for setting pronouns
-- 💡 Auto-suggestions for common pronouns
-- 🎨 More gradient presets
-- 📱 Per-world pronoun display settings
+- MySQL support for shared pronouns across BungeeCord servers
+- GUI for setting pronouns
+- Auto-suggestions for common pronouns
+- More gradient presets
+- Per-world pronoun display settings
 
 ---
 
-### 🐛 Bug Reports & Support
+### Bug Reports & Support
 
 Found a bug? Have a suggestion?
 - Open an issue on the project page
@@ -141,13 +174,12 @@ Found a bug? Have a suggestion?
 
 ---
 
-### ❤️ Support Development
+### Support Development
 
 If you love this plugin and want to support continued development:
-- ⭐ Leave a review on SpigotMC
-- 💬 Share with your server community
-- ☕ Buy me a coffee (link)
+- Leave a review on SpigotMC
+- Share with your server community
 
 ---
 
-*Let's make Minecraft more inclusive, one chat message at a time.* 🏳️‍🌈
+*Let's make Minecraft more inclusive, one chat message at a time.*
