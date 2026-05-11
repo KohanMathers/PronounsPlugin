@@ -1,6 +1,6 @@
 # 📘 Pronouns Documentation
 
-Welcome to the official documentation for **Pronouns v3.5.0** – a lightweight, inclusive plugin that lets players set and display pronouns in chat and beyond using [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/).
+Welcome to the official documentation for **Pronouns v3.5.1** – a lightweight, inclusive plugin that lets players set and display pronouns in chat and beyond using [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/).
 
 ---
 

@@ -3,7 +3,6 @@ package com.quietterminal.pronounsplugin;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -52,8 +51,6 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
     private BukkitAudiences adventure;
     
     private boolean isPaperServer = false;
-    private Method paperDisplayNameMethod = null;
-    private Method paperPlayerListNameMethod = null;
 
     @Override
     public void onEnable() {
@@ -108,13 +105,11 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
     }
 
     private void detectPaperCompatibility() {
-        if (hasClass("com.destroystokyo.paper.PaperConfig") || hasClass("io.papermc.paper.configuration.Configuration")) {
-            isPaperServer = true;
-            getLogger().info("Paper server detected - using enhanced display name features");
-        } else {
-            isPaperServer = false;
-            getLogger().info("Spigot server detected - using legacy display name compatibility");
-        }
+        isPaperServer = Bukkit.getName().equalsIgnoreCase("Paper")
+                || hasClass("io.papermc.paper.event.player.AsyncChatEvent");
+        getLogger().info(isPaperServer
+                ? "Paper server detected - using enhanced display name features"
+                : "Spigot server detected - using legacy display name compatibility");
     }
 
     private void setupBStatsCharts() {
@@ -759,43 +754,12 @@ public class PronounsPlugin extends JavaPlugin implements Listener {
                 tabListName = Component.text(playerName).append(Component.text(" [" + pronouns + "]"));
             }
             
-            if (isPaperServer && paperDisplayNameMethod != null && paperPlayerListNameMethod != null) {
-                try {
-                    paperDisplayNameMethod.invoke(player, formattedName);
-                    player.setCustomName(LegacyComponentSerializer.legacySection().serialize(formattedName));
-                    player.setCustomNameVisible(getConfig().getBoolean("chat.show-above-head", true));
-                    
-                    if (getConfig().getBoolean("chat.show-in-tab-list", true)) {
-                        paperPlayerListNameMethod.invoke(player, tabListName);
-                    }
-                } catch (Exception e) {
-                    getLogger().warning("Failed to use Paper display name methods, falling back to Spigot compatibility: " + e.getMessage());
-                    setSpigotDisplayName(player, formattedName, tabListName);
-                }
-            } else {
-                setSpigotDisplayName(player, formattedName, tabListName);
-            }
+            setSpigotDisplayName(player, formattedName, tabListName);
         } else {
-            if (isPaperServer && paperDisplayNameMethod != null) {
-                try {
-                    Component nameComponent = Component.text(playerName);
-                    paperDisplayNameMethod.invoke(player, nameComponent);
-                    player.setCustomName(null);
-                    player.setCustomNameVisible(false);
-                    if (paperPlayerListNameMethod != null) {
-                        paperPlayerListNameMethod.invoke(player, nameComponent);
-                    }
-                } catch (Exception e) {
-                    player.setCustomName(null);
-                    player.setCustomNameVisible(false);
-                    player.setPlayerListName(null);
-                }
-            } else {
-                player.setDisplayName(playerName);
-                player.setCustomName(null);
-                player.setCustomNameVisible(false);
-                player.setPlayerListName(playerName);
-            }
+            player.setDisplayName(playerName);
+            player.setCustomName(null);
+            player.setCustomNameVisible(false);
+            player.setPlayerListName(playerName);
         }
     }
     

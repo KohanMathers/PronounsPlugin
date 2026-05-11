@@ -1,5 +1,5 @@
 # Pronouns – Let Players Show Their True Selves
-## Version 3.5.0 | Made by KohanMathers
+## Version 3.5.1 | Made by KohanMathers
 
 Give your Minecraft community the power to express themselves authentically. **Pronouns** allows players to set and display their pronouns directly in chat and above their heads, with vibrant colors and gradient effects. Whether you're running a survival server or an inclusive roleplay world, this plugin helps create a welcoming and respectful space for everyone.
 
@@ -147,7 +147,7 @@ All messages are fully customizable with MiniMessage and legacy color code suppo
 
 ### Notes
 
-- **Spigot/Paper only** (1.21+). Does not currently support BungeeCord networks
+- **Spigot/Paper only** (26.1.2+). Does not currently support BungeeCord networks
 - Pronouns are stored in `plugins/PronounsPlugin/pronouns.json`
 - PlaceholderAPI is **highly recommended** for chat integration
 - The plugin automatically detects Paper vs Spigot and uses appropriate APIs

@@ -1,9 +1,9 @@
 name: PronounsPlugin
-version: 3.5.0
+version: 3.5.1
 main: com.quietterminal.pronounsplugin.PronounsPlugin
 author: KohanMathers
 description: A plugin for managing player pronouns with gradient support
-api-version: 1.21
+api-version: '26.1'
 softdepend: [PlaceholderAPI]
 
 commands:
