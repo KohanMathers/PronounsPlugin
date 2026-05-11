@@ -1,0 +1,41 @@
+name: PronounsPlugin
+version: 3.5.0
+main: com.quietterminal.pronounsplugin.PronounsPlugin
+author: KohanMathers
+description: A plugin for managing player pronouns with gradient support
+api-version: 1.21
+softdepend: [PlaceholderAPI]
+
+commands:
+  pronouns:
+    description: Manage your pronouns
+    usage: /<command> <set|remove|reload> [args]
+    aliases: [pronoun, pn]
+
+permissions:
+  pronouns.use:
+    description: Allows basic pronoun commands
+    default: true
+  pronouns.remove.others:
+    description: Allows removing other players' pronouns
+    default: op
+  pronouns.gradient:
+    description: Allows using gradient pronouns
+    default: true
+  pronouns.gradient-limit-bypass:
+    description: Bypass gradient color limit
+    default: op
+  pronouns.bypass-filter:
+    description: Bypass whitelist/blacklist filters
+    default: op
+  pronouns.reload:
+    description: Allows reloading the plugin configuration
+    default: op
+  pronouns.admin:
+    description: All pronoun admin permissions
+    default: op
+    children:
+      pronouns.remove.others: true
+      pronouns.gradient-limit-bypass: true
+      pronouns.bypass-filter: true
+      pronouns.reload: true

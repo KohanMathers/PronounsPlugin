@@ -1,0 +1,83 @@
+# Gradient Settings
+# color-limit - Maximum number of colors allowed in a gradient (set to -1 for unlimited)
+# show-preview - Whether to show a preview of the gradient when applied
+# presets - Add your own gradient presets here
+gradient:
+  color-limit: 5
+  show-preview: true
+  presets:
+    pride: "#FF0018 #FFA52C #FFFF41 #008018 #0000F9 #86007D"
+    galaxy: "#667eea #764ba2 #667eea"
+    pastel: "#ffecd2 #fcb69f #ffecd2"
+
+# General Settings
+# max-pronoun-length - Maximum length for pronoun text (prevents spam)
+# auto-save - Whether to automatically save data (recommended: true)
+# save-delay - Save delay in seconds after changes (prevents excessive disk writes)
+# update-display-names - Whether to update player display names automatically
+general:
+  max-pronoun-length: 20
+  auto-save: true
+  save-delay: 1
+  update-display-names: true
+
+# Chat Integration
+# show-in-tab-list - Whether to show pronouns in tab list
+# show-above-head - Whether to show pronouns above player heads
+# bracket-style - Default bracket style for pronouns display (Options: square [], round (), curly {}, angle <>)
+chat:
+  show-in-tab-list: true
+  show-above-head: false
+  bracket-style: "square"
+# Permissions
+# allow-self-remove - Whether non-ops can remove their own pronouns
+# require-basic-permission - Whether to require permission to use basic pronoun commands
+permissions:
+  allow-self-remove: true
+  require-basic-permission: false
+
+# Messages
+# no-pronouns-set - Message when no pronouns are set
+# pronouns-set - Message when pronouns are set
+# pronouns-removed - Message when pronouns are removed
+# gradient-applied - Message when gradient is applied
+# gradient-limit-exceeded - Message when color limit is exceeded
+# invalid-color - Message for invalid color
+# player-only - Message for player-only commands
+# no-permission - Message for lack of permission
+# max-length-exceeded - Message for pronouns too long
+messages:
+  no-pronouns-set: "&cYou must set pronouns first before applying a gradient! Use /pronouns add <color> <pronouns>"
+  pronouns-set: "&aYour pronouns have been set to: {pronouns}"
+  pronouns-removed: "&aYour pronouns have been removed."
+  gradient-applied: "&aApplied gradient to your pronouns:"
+  gradient-limit-exceeded: "&cToo many colors! Maximum allowed: {limit}."
+  invalid-color: "&cInvalid color: {color}. Use hex codes (#ff0000) or legacy names (red, blue, etc.)"
+  player-only: "&cOnly players can use this command."
+  no-permission: "&cYou do not have permission to use this command."
+  max-length-exceeded: "&cPronouns too long! Maximum length: {limit} characters."
+  pronouns-not-whitelisted: "&cThose pronouns are not allowed. Please choose from the approved list."
+  pronouns-blacklisted: "&cThose pronouns are not allowed."
+
+# Filter Settings
+# Whitelist - If enabled, ONLY pronouns matching list or regex are allowed
+# Blacklist - Pronouns matching list or regex are blocked
+# Note: Whitelist takes priority over blacklist if both have matches
+# list - Exact matches (case-insensitive)
+# regex - Java regex pattern (leave empty "" to disable)
+filter:
+  whitelist:
+    enabled: false
+    list: []
+    regex: ""
+  blacklist:
+    enabled: false
+    list: []
+    regex: ""
+
+# Debug Settings
+# enabled - Enable debug logging
+# log-changes - Log all pronoun changes
+debug:
+  enabled: false
+  log-changes: false
